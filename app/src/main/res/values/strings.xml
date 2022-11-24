@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Background Location Tracker</string>
+
+    <!-- Main -->
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+
+    <!-- LocationNotification -->
+    <string name="tracking_location">Tracking location…</string>
+    <string name="your_location">Location: (%1$s, %2$s)</string>
+    <string name="location_tracker">Location tracker</string>
+    <string name="location_tracker_description">This channel is used to show notification when tracking location.</string>
+    <string name="action_settings">settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_map">Open map</string>
+</resources>
