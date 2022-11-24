@@ -42,7 +42,7 @@ class LocationService : PipOverlayService() {
 
     override fun getForegroundNotification(): Notification = notification.createNotification()
 
-    override fun getInitialWindowSize(): Point = Point(200.toDp(), 100.toDp())
+    override fun getInitialWindowSize(): Point = Point(180.toDp(), 50.toDp())
 
     override fun onServiceRun() {
         println("onServiceRun")
@@ -113,10 +113,14 @@ class LocationService : PipOverlayService() {
 
                     pipView.setProgress((distance/totalDistance*100).toInt())
 
-                    pipView.setTitle(String.format("%.1fm",distance))
+                    val formatted = if(distance > 1500)
+                        String.format("%.1fkm",distance/1000)
+                    else
+                        String.format("%.1fm",distance)
+
+                    pipView.setTitle(formatted)
                     notification.updateContentText(
-                        latitude = location.latitude,
-                        longitude = location.longitude
+                        formatted
                     )
                 }
         }

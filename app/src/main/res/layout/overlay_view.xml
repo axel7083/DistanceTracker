@@ -16,45 +16,59 @@
         android:elevation="2dp"
         android:src="@drawable/ic_hide"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@android:color/black" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:focusable="false"
-        android:clickable="false"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center_horizontal">
-        <TextView
-            android:id="@+id/title_tv"
-            android:text="1.8km"
-            android:textSize="25dp"
-            android:textColor="@android:color/black"
-            android:focusable="false"
-            android:clickable="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/image_hide"
+        app:layout_constraintEnd_toStartOf="@id/image_close"
+        android:orientation="horizontal">
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progressBar"
-            android:indeterminate="true"
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/title_tv"
-            app:trackCornerRadius="90dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:focusable="false"
             android:clickable="false"
-            android:layout_marginHorizontal="20dp"
-            android:progress="20"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/title_tv"
+                android:text="1.8km"
+                android:textSize="21sp"
+                android:textColor="@android:color/black"
+                android:focusable="false"
+                android:clickable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar"
+                android:indeterminate="true"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/title_tv"
+                app:trackCornerRadius="90dp"
+                android:focusable="false"
+                android:clickable="false"
+                android:layout_marginHorizontal="40dp"
+                android:progress="20"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
     <ImageView
         android:id="@+id/image_close"
@@ -63,6 +77,7 @@
         android:layout_height="@dimen/close_btn_size"
         android:padding="@dimen/close_btn_padding"
         android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

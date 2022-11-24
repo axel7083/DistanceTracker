@@ -1,10 +1,13 @@
 package com.github.axel7083.distancetracker.core.service
 
 import android.content.Context
+import android.graphics.Point
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.view.ContextThemeWrapper
 import com.github.axel7083.distancetracker.R
+import com.github.axel7083.distancetracker.core.util.Convertion.toDp
 import com.github.axel7083.distancetracker.databinding.OverlayViewBinding
 
 class OverlayPipCustomView : FrameLayout {
@@ -16,6 +19,7 @@ class OverlayPipCustomView : FrameLayout {
     private var onHided: () -> Unit = {}
 
     var isMoving: Boolean = false
+    var isHided: Boolean = false
 
     constructor(ctx: Context) : super(ctx) {
         initView(ctx)
@@ -81,6 +85,11 @@ class OverlayPipCustomView : FrameLayout {
         binding.imageHide.setOnClickListener {
             onHided.invoke()
         }
+    }
+
+    fun setContentAndCloseVisibility(value: Int) {
+        binding.content.visibility = value
+        binding.imageClose.visibility = value
     }
 
     fun setOnClosedListener(

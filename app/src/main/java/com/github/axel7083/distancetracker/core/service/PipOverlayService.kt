@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.IBinder
 import android.view.*
 import androidx.lifecycle.LifecycleService
+import com.github.axel7083.distancetracker.core.util.Convertion.toDp
 
 
 abstract class PipOverlayService : LifecycleService(), View.OnTouchListener, OverlayService {
@@ -47,6 +48,15 @@ abstract class PipOverlayService : LifecycleService(), View.OnTouchListener, Ove
             startForeground(getNotificationId(), notification)
         }
 
+        if(this@PipOverlayService::pipView.isInitialized.not())
+            setupView()
+
+        onServiceRun()
+
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun setupView() {
         wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         pipView = OverlayPipCustomView(this)
 
@@ -71,16 +81,24 @@ abstract class PipOverlayService : LifecycleService(), View.OnTouchListener, Ove
 
         // Close listener
         pipView.setOnClosedListener {
+            println("setOnClosedListener")
             stopService()
         }
 
         pipView.setOnHidedListener {
             println("on hided")
+            if(pipView.isHided) {
+                pipView.isHided = false
+                pipView.setContentAndCloseVisibility(View.VISIBLE)
+                setWindowSize(getInitialWindowSize())
+            }
+            else {
+                pipView.isHided = true
+                pipView.setContentAndCloseVisibility(View.GONE)
+                setWindowSize(Point(50.toDp(), 50.toDp()))
+            }
+
         }
-
-        onServiceRun()
-
-        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun getWindowView() = pipView
@@ -135,11 +153,17 @@ abstract class PipOverlayService : LifecycleService(), View.OnTouchListener, Ove
         return true
     }
 
+    private fun setWindowSize(point: Point) {
+        params.height = point.y
+        params.width = point.x
+
+        wm.updateViewLayout(pipView, params)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         wm.removeView(pipView)
     }
-
 
     companion object {
         @JvmStatic

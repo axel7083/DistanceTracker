@@ -43,9 +43,9 @@ class LocationNotification(
         return builder.build()
     }
 
-    fun updateContentText(latitude: Double, longitude: Double) {
+    fun updateContentText(str: String) {
         val notification =
-            builder.setContentText(context.getString(R.string.your_location, latitude.toString(), longitude.toString())).build()
+            builder.setContentText(str).build()
         manager.notify(ID, notification)
     }
 }

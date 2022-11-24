@@ -127,7 +127,11 @@ class HomeFragment : Fragment() {
         binding.map.setMultiTouchControls(true)
 
         val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), binding.map)
-        locationOverlay.enableMyLocation();
+        locationOverlay.enableMyLocation()
+
+        locationOverlay.enableAutoStop = true
+        locationOverlay.enableFollowLocation()
+
         binding.map.overlays.add(locationOverlay)
 
         val mapController = binding.map.controller
