@@ -111,7 +111,7 @@ class LocationService : PipOverlayService() {
                     if(totalDistance == -1f)
                         totalDistance = distance
 
-                    pipView.setProgress((distance/totalDistance*100).toInt())
+                    pipView.setProgress(100-(distance/totalDistance*100).toInt())
 
                     val formatted = if(distance > 1500)
                         String.format("%.1fkm",distance/1000)
