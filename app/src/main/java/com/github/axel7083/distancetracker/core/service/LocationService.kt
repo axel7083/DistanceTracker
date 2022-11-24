@@ -113,7 +113,7 @@ class LocationService : PipOverlayService() {
 
                     pipView.setProgress((distance/totalDistance*100).toInt())
 
-                    pipView.setTitle(String.format("%.2fm",distance))
+                    pipView.setTitle(String.format("%.1fm",distance))
                     notification.updateContentText(
                         latitude = location.latitude,
                         longitude = location.longitude

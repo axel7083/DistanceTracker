@@ -3,6 +3,7 @@ package com.github.axel7083.distancetracker.presentation.fragments.home
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -115,8 +116,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }*/
-
-
     }
 
     private fun setupMap() {

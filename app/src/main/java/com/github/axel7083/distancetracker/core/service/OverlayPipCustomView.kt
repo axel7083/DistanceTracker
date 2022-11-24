@@ -65,10 +65,12 @@ class OverlayPipCustomView : FrameLayout {
             this.progress = value
             this.max = max
         }
+        invalidate()
     }
 
     fun setTitle(str: String) {
         binding.titleTv.text = str
+        invalidate()
     }
 
     private fun setListeners() {
