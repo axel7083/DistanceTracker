@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.github.axel7083.distancetracker.R
 import com.github.axel7083.distancetracker.core.api.ApiClient
@@ -75,6 +76,18 @@ class HomeFragment : Fragment() {
 
             override fun onQueryTextChange(s: String?): Boolean = true
         })
+
+        binding.toolbar.setOnMenuItemClickListener {
+            println("itemId ${it.itemId}")
+            println("itemId ${R.id.action_history}")
+            when(it.itemId) {
+                R.id.action_history -> {
+                    findNavController().navigate(R.id.action_homeFragment_to_historyFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
         setupMap()
 

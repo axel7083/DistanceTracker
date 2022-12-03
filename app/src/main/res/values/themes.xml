@@ -3,5 +3,6 @@
 
     <style name="Theme.BackgroundLocationTracker" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
     </style>
 </resources>
