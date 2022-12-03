@@ -3,8 +3,10 @@ package com.github.axel7083.distancetracker.injection.provide
 import android.app.Application
 import android.app.NotificationManager
 import android.location.LocationManager
+import androidx.room.Room
 import com.github.axel7083.distancetracker.core.api.ApiClient
 import com.github.axel7083.distancetracker.core.notification.LocationNotification
+import com.github.axel7083.distancetracker.core.room.HistoryDB
 import com.github.axel7083.distancetracker.core.util.AndroidLocationProvider
 import com.github.axel7083.distancetracker.core.util.Constants
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -45,7 +47,7 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient() = OkHttpClient
+    fun provideHttpClient(): OkHttpClient = OkHttpClient
         .Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
@@ -69,4 +71,11 @@ object ApplicationModule {
         context = application.baseContext,
         manager = notificationManager
     )
+
+    @Provides
+    @Singleton
+    fun provideDatabase(application: Application): HistoryDB = Room.databaseBuilder(
+        application,
+        HistoryDB::class.java, "history-db"
+    ).build()
 }

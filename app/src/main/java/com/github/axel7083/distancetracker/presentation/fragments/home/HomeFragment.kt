@@ -16,6 +16,7 @@ import androidx.preference.PreferenceManager
 import com.github.axel7083.distancetracker.R
 import com.github.axel7083.distancetracker.core.api.ApiClient
 import com.github.axel7083.distancetracker.core.api.data.Place
+import com.github.axel7083.distancetracker.core.room.entities.PlaceEntity
 import com.github.axel7083.distancetracker.core.service.LocationService
 import com.github.axel7083.distancetracker.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +56,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -90,45 +91,6 @@ class HomeFragment : Fragment() {
         }
 
         setupMap()
-
-        /*binding.start.setOnClickListener {
-            Intent(context, LocationService::class.java).apply {
-                action = LocationService.ACTION_START
-                requireActivity().startService(this)
-            }
-        }
-
-        binding.stop.setOnClickListener {
-            Intent(context, LocationService::class.java).apply {
-                action = LocationService.ACTION_STOP
-                requireActivity().startService(this)
-            }
-        }*/
-
-        /*binding.start.setOnClickListener {
-            Intent(context, LocationService::class.java).apply {
-                action = LocationService.ACTION_START
-                requireActivity().startService(this)
-            }
-        }
-        binding.stop.setOnClickListener {
-            Intent(context, LocationService::class.java).apply {
-                action = LocationService.ACTION_STOP
-                requireActivity().startService(this)
-            }
-        }
-
-        binding.search.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = apiClient.client.searchPlace("avenue jeanne d'arc Montréal")
-                assert(response.isSuccessful)
-                val body = response.body() ?: throw Exception("body null")
-                println("found ${body.size} place(s)")
-                for(place in body) {
-                    println("place ${place.display_name}")
-                }
-            }
-        }*/
     }
 
     private fun setupMap() {
@@ -209,8 +171,13 @@ class HomeFragment : Fragment() {
         val tempOverlay = ItemizedOverlayWithFocus(items, object:
             ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
             override fun onItemSingleTapUp(index:Int, item:OverlayItem):Boolean {
-                println("Clicked")
 
+                viewModel.save(PlaceEntity(
+                    name = item.title,
+                    lat = item.point.latitude,
+                    lon = item.point.longitude,
+                    timestamp = System.currentTimeMillis()
+                ))
                 Intent(context, LocationService::class.java).apply {
                     this.putExtra("endLat", item.point.latitude)
                     this.putExtra("endLon", item.point.longitude)

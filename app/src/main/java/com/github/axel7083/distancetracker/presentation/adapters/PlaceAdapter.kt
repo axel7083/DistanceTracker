@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.axel7083.distancetracker.R
 import com.github.axel7083.distancetracker.core.api.data.Place
+import com.github.axel7083.distancetracker.core.room.entities.PlaceEntity
 import com.github.axel7083.distancetracker.databinding.RowPlaceDetailsBinding
 
 class PlaceAdapter(
-    private var data: List<Place>
+    private var data: List<PlaceEntity>,
+    private val onItemClicked: (PlaceEntity) -> Unit
 ):
     RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
 
@@ -17,10 +19,13 @@ class PlaceAdapter(
         val binding: RowPlaceDetailsBinding
         init {
             binding = RowPlaceDetailsBinding.bind(view)
+            binding.explore.setOnClickListener {
+                onItemClicked.invoke(data[adapterPosition])
+            }
         }
     }
 
-    fun updateDataSet(data: List<Place>) {
+    fun updateDataSet(data: List<PlaceEntity>) {
         this.data = data
         notifyItemRangeInserted(0, this.data.size)
     }
@@ -41,7 +46,22 @@ class PlaceAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.name.text = data[position].display_name
+        val subs = data[position].name.split(",")
+        when(subs.size) {
+            0 -> {
+                holder.binding.name.text = ""
+                holder.binding.details.text = ""
+            }
+            1 -> {
+                holder.binding.name.text = subs[0]
+                holder.binding.details.text = ""
+            }
+            else -> {
+                holder.binding.name.text = subs[0]
+                holder.binding.details.text = subs.minus(subs.first()).joinToString()
+            }
+        }
+
     }
 
     override fun getItemCount(): Int = data.size
