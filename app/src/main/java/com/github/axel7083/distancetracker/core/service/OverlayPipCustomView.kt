@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import androidx.appcompat.view.ContextThemeWrapper
 import com.github.axel7083.distancetracker.R
 import com.github.axel7083.distancetracker.core.util.Convertion.toDp
@@ -64,10 +65,10 @@ class OverlayPipCustomView : FrameLayout {
     fun getTouchView() = binding.touchView
 
     fun setProgress(value: Int, max: Int = 100) {
-        binding.progressBar.apply {
-            this.isIndeterminate = value == -1
-            this.progress = value
-            this.max = max
+        for (bar in listOf<ProgressBar>(binding.progressBar, binding.progressCircular)) {
+            bar.isIndeterminate = value == -1
+            bar.progress = value
+            bar.max = max
         }
         invalidate()
     }
@@ -87,9 +88,18 @@ class OverlayPipCustomView : FrameLayout {
         }
     }
 
-    fun setContentAndCloseVisibility(value: Int) {
-        binding.content.visibility = value
-        binding.imageClose.visibility = value
+    fun minimize() {
+        binding.content.visibility = View.GONE
+        binding.imageClose.visibility = View.GONE
+
+        binding.progressCircular.visibility = View.VISIBLE
+    }
+
+    fun expend() {
+        binding.content.visibility = View.VISIBLE
+        binding.imageClose.visibility = View.VISIBLE
+
+        binding.progressCircular.visibility = View.GONE
     }
 
     fun setOnClosedListener(

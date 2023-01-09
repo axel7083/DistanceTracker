@@ -89,12 +89,12 @@ abstract class PipOverlayService : LifecycleService(), View.OnTouchListener, Ove
             println("on hided")
             if(pipView.isHided) {
                 pipView.isHided = false
-                pipView.setContentAndCloseVisibility(View.VISIBLE)
+                pipView.expend()
                 setWindowSize(getInitialWindowSize())
             }
             else {
                 pipView.isHided = true
-                pipView.setContentAndCloseVisibility(View.GONE)
+                pipView.minimize()
                 setWindowSize(Point(50.toDp(), 50.toDp()))
             }
 

@@ -57,6 +57,6 @@ class HistoryFragment : Fragment() {
             }
         }
 
-        viewModel.fetchPlaces()
+
     }
 }

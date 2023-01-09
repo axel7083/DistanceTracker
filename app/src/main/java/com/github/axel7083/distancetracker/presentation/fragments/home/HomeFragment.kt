@@ -1,16 +1,15 @@
 package com.github.axel7083.distancetracker.presentation.fragments.home
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.github.axel7083.distancetracker.R
@@ -34,6 +33,7 @@ import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import org.osmdroid.views.util.constants.OverlayConstants
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var overlay: Overlay
+    private lateinit var historyOverlay: Overlay
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,7 +91,15 @@ class HomeFragment : Fragment() {
             }
         }
 
+        activity?.let {
+            viewModel.placesHistory.observe(it) {
+                displayHistory()
+            }
+        }
+
         setupMap()
+
+        viewModel.fetchPlaces()
     }
 
     private fun setupMap() {
@@ -161,6 +170,14 @@ class HomeFragment : Fragment() {
             }
             displayOverlay(items)
         }
+    }
+
+    private fun displayHistory() {
+        val items: List<OverlayItem> = viewModel.placesHistory.value?.map {
+            OverlayItem(it.name, it.name, GeoPoint(it.lat, it.lon))
+        } ?: return
+
+        displayOverlay(items)
     }
 
     private fun displayOverlay(items: List<OverlayItem>) {
